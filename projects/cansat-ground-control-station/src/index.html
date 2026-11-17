@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>India Space Lab - CanSat Ground Control Software (GCS)</title>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Leaflet CSS & JS CDN -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Top Control Bar -->
+  <header>
+    <div class="brand">
+      <h1>INDIA SPACE LAB — CANSAT GCS</h1>
+      <span>Ground Station Mission Operations Dashboard v1.0</span>
+      <span class="simulation-notice">SIMULATION MODE · NO HARDWARE LINK</span>
+    </div>
+    <div class="control-btn-group">
+      <button class="btn-start" onclick="startTelemetry()">▶ Start Telemetry</button>
+      <button class="btn-stop" onclick="stopTelemetry()">⏹ Stop Telemetry</button>
+      <button onclick="exportCSV()">📁 Export CSV</button>
+      <button onclick="syncTime()">🕒 Sync PC Time</button>
+      <button onclick="resetPacket()">🔄 Reset Packet</button>
+    </div>
+  </header>
+
+  <!-- Main Dashboard Grid -->
+  <div class="dashboard-grid">
+    
+    <!-- LEFT PANEL: Controls & Status -->
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      
+      <!-- Mission Control Panel -->
+      <div class="card">
+        <h2>Mission Control Panel</h2>
+        <button class="btn-cmd" onclick="sendCommand('MANUAL SEPARATION')">🚀 Manual Separation</button>
+        <button class="btn-cmd" onclick="sendCommand('EMERGENCY PARACHUTE')">🪂 Emergency Parachute</button>
+        <button class="btn-cmd" onclick="sendCommand('REDUNDANT ACTIVATION')">⚡ Redundant Activation</button>
+        <div id="cmd-status" class="status-badge" style="background:#1e293b; color:#94a3b8;">Status: STANDBY</div>
+      </div>
+
+      <!-- 4-Digit Error Code System -->
+      <div class="card">
+        <h2>System Error Code: <span id="error-code-str" style="color:var(--accent-green)">0000</span></h2>
+        <div class="error-box">
+          <div class="digit-box">
+            <div id="d1" class="digit-num digit-ok">0</div>
+            <div class="digit-label">Descent</div>
+          </div>
+          <div class="digit-box">
+            <div id="d2" class="digit-num digit-ok">0</div>
+            <div class="digit-label">GPS</div>
+          </div>
+          <div class="digit-box">
+            <div id="d3" class="digit-num digit-ok">0</div>
+            <div class="digit-label">Separation</div>
+          </div>
+          <div class="digit-box">
+            <div id="d4" class="digit-num digit-ok">0</div>
+            <div class="digit-label">Parachute</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Orientation Artificial Horizon -->
+      <div class="card">
+        <h2>Attitude & Orientation</h2>
+        <div class="horizon-box">
+          <div id="horizon-line" class="horizon-line"></div>
+        </div>
+        <div class="telemetry-row">
+          <span class="telemetry-label">Roll / Pitch / Yaw:</span>
+          <span id="att-val" class="telemetry-val">0.0° / 0.0° / 0.0°</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CENTER PANEL: Real-time Graphs -->
+    <div class="card">
+      <h2>Real-Time Flight Metrics & Telemetry Graphs</h2>
+      <div class="charts-container">
+        <div class="chart-box"><canvas id="altitudeChart"></canvas></div>
+        <div class="chart-box"><canvas id="pressureChart"></canvas></div>
+        <div class="chart-box"><canvas id="descentChart"></canvas></div>
+        <div class="chart-box"><canvas id="voltageChart"></canvas></div>
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL: Tracking Map & Telemetry Tables -->
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      
+      <!-- GPS Tracking Map -->
+      <div class="card">
+        <h2>Payload GPS Tracking Map</h2>
+        <div id="map"></div>
+        <div class="telemetry-row">
+          <span class="telemetry-label">Coordinates:</span>
+          <span id="gps-val" class="telemetry-val">22.3072, 73.1812</span>
+        </div>
+      </div>
+
+      <!-- Live Video Stream -->
+      <div class="card">
+        <h2>Local Camera Preview</h2>
+        <video id="video-feed" autoplay playsinline muted></video>
+        <button id="camera-toggle" onclick="toggleCamera()">📹 Start Local Camera</button>
+      </div>
+
+      <!-- Separate Telemetry Display -->
+      <div class="card">
+        <h2>Telemetry Data Fields</h2>
+        <div class="telemetry-group">
+          <div class="telemetry-row"><span class="telemetry-label">Packet Count:</span><span id="pkt-val" class="telemetry-val">0</span></div>
+          <div class="telemetry-row"><span class="telemetry-label">Altitude:</span><span id="alt-val" class="telemetry-val">750.0 m</span></div>
+          <div class="telemetry-row"><span class="telemetry-label">Pressure:</span><span id="pres-val" class="telemetry-val">1013.2 hPa</span></div>
+          <div class="telemetry-row"><span class="telemetry-label">Descent Rate:</span><span id="desc-val" class="telemetry-val">8.5 m/s</span></div>
+          <div class="telemetry-row"><span class="telemetry-label">Temperature:</span><span id="temp-val" class="telemetry-val">28.4 °C</span></div>
+          <div class="telemetry-row"><span class="telemetry-label">Battery Voltage:</span><span id="volt-val" class="telemetry-val">4.18 V</span></div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script src="js/app.js" defer></script>
+</body>
+</html>

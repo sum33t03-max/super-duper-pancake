@@ -1,0 +1,35 @@
+# OS/editor
+.DS_Store
+._*
+Thumbs.db
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.ipynb_checkpoints/
+.pytest_cache/
+
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Generated outputs
+*.mp4
+*.gif
+*.html
+!projects/cansat-ground-control-station/src/index.html
+
+# Local/private source reports and working copies
+private/
+originals/
+
+# Internal review notes
+README_REVIEW_NOTES.md

@@ -1,0 +1,125 @@
+:root {
+      --bg-dark: #0a0e17;
+      --card-bg: #121824;
+      --border-color: #1e293b;
+      --text-main: #e2e8f0;
+      --accent-cyan: #38bdf8;
+      --accent-green: #22c55e;
+      --accent-red: #ef4444;
+      --accent-yellow: #eab308;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body { background-color: var(--bg-dark); color: var(--text-main); padding: 12px; }
+    
+    /* Top Control Bar */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      padding: 12px 20px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+    }
+    .brand h1 { font-size: 1.2rem; color: var(--accent-cyan); letter-spacing: 1px; }
+    .brand span { font-size: 0.8rem; color: #94a3b8; }
+    .control-btn-group { display: flex; gap: 8px; flex-wrap: wrap; }
+    button {
+      background: #1e293b;
+      color: white;
+      border: 1px solid #334155;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    button:hover { background: #334155; }
+    button.btn-start { background: #15803d; border-color: #22c55e; }
+    button.btn-stop { background: #b91c1c; border-color: #ef4444; }
+    button.btn-cmd { background: #b45309; border-color: #f59e0b; }
+
+    /* Dashboard Grid Layout */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 280px 1fr 320px;
+      gap: 12px;
+    }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .card h2 { font-size: 0.95rem; color: var(--accent-cyan); border-bottom: 1px solid var(--border-color); padding-bottom: 6px; }
+
+    /* Telemetry Display Tables */
+    .telemetry-group { font-size: 0.85rem; display: flex; flex-direction: column; gap: 6px; }
+    .telemetry-row { display: flex; justify-content: space-between; padding: 4px 6px; background: #1a2234; border-radius: 4px; }
+    .telemetry-label { color: #94a3b8; }
+    .telemetry-val { font-weight: bold; color: #ffffff; }
+
+    /* Error Code System */
+    .error-box {
+      display: flex;
+      justify-content: space-around;
+      background: #0f172a;
+      padding: 10px;
+      border-radius: 6px;
+      text-align: center;
+    }
+    .digit-box { display: flex; flex-direction: column; align-items: center; }
+    .digit-num { font-size: 1.4rem; font-weight: bold; padding: 4px 10px; border-radius: 4px; background: #1e293b; }
+    .digit-ok { color: var(--accent-green); border: 1px solid var(--accent-green); }
+    .digit-fault { color: var(--accent-red); border: 1px solid var(--accent-red); background: #450a0a; }
+    .digit-label { font-size: 0.65rem; color: #94a3b8; margin-top: 4px; }
+
+    /* Graphs Container */
+    .charts-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .chart-box { height: 180px; position: relative; }
+
+    /* Map & Video */
+    #map { height: 200px; width: 100%; border-radius: 6px; border: 1px solid var(--border-color); }
+    video { width: 100%; height: 180px; background: #000; border-radius: 6px; object-fit: cover; }
+
+    /* Artificial Horizon */
+    .horizon-box {
+      height: 120px;
+      background: #1e293b;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .horizon-line {
+      width: 100%;
+      height: 2px;
+      background: var(--accent-green);
+      position: absolute;
+      transition: transform 0.1s linear;
+    }
+    .status-badge { font-size: 0.8rem; padding: 4px 8px; border-radius: 4px; text-align: center; font-weight: bold; }
+
+/* Explicitly distinguish generated telemetry from a live hardware connection. */
+.simulation-notice {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 4px 8px;
+  border: 1px solid var(--accent-yellow);
+  border-radius: 4px;
+  color: var(--accent-yellow);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
